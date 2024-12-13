@@ -12,32 +12,32 @@ import { zodToJsonSchema } from 'zod-to-json-schema';
 const FormatHelloArgsSchema = z.object({
   obj: z.union([
     z.object({
-      timeOfDay: z.string().describe("The rough time of day, e.g. morning or afternoon"),
-      type: z.literal("group"),
+      timeOfDay: z.string().describe('The rough time of day, e.g. morning or afternoon'),
+      type: z.literal('group'),
       people: z.array(z.string()),
     }),
     z.object({
-      timeOfDay: z.string().describe("The rough time of day, e.g. morning or afternoon"),
-      type: z.literal("individual"),
+      timeOfDay: z.string().describe('The rough time of day, e.g. morning or afternoon'),
+      type: z.literal('individual'),
       person: z.string(),
     }),
-  ])
+  ]),
 });
 
 const FormatGoodbyeArgsSchema = z.object({
   obj: z.object({
-    timeOfDay: z.string().describe("The rough time of day, e.g. morning or afternoon"),
+    timeOfDay: z.string().describe('The rough time of day, e.g. morning or afternoon'),
   }).and(
     z.union([
       z.object({
-        type: z.literal("group"),
+        type: z.literal('group'),
         people: z.array(z.string()),
       }),
       z.object({
-        type: z.literal("individual"),
+        type: z.literal('individual'),
         person: z.string(),
       }),
-    ])
+    ]),
   ),
 });
 
@@ -45,17 +45,17 @@ const FormatSorryArgsSchema = z.object({
   obj: z.object({
     nested: z.union([
       z.object({
-        timeOfDay: z.string().describe("The rough time of day, e.g. morning or afternoon"),
-        type: z.literal("group"),
+        timeOfDay: z.string().describe('The rough time of day, e.g. morning or afternoon'),
+        type: z.literal('group'),
         people: z.array(z.string()),
       }),
       z.object({
-        timeOfDay: z.string().describe("The rough time of day, e.g. morning or afternoon"),
-        type: z.literal("individual"),
+        timeOfDay: z.string().describe('The rough time of day, e.g. morning or afternoon'),
+        type: z.literal('individual'),
         person: z.string(),
       }),
-    ])
-  })
+    ]),
+  }),
 });
 
 const server = new Server(
@@ -88,7 +88,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         name: 'format_sorry',
         description: 'Generate a sorry message',
         inputSchema: zodToJsonSchema(FormatSorryArgsSchema),
-      }
+      },
     ],
   };
 });
@@ -97,8 +97,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   if (request.params.name === 'format_hello') {
     const args = FormatHelloArgsSchema.parse(request.params.arguments);
     return {
-      content: [{ 
-        type: 'text', 
+      content: [{
+        type: 'text',
         text: `Good ${args.obj.timeOfDay}, ${args.obj.type === 'group' ? args.obj.people.join(', ') : args.obj.person}! It's nice to meet you.`,
       }],
       isError: false,
@@ -107,8 +107,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   if (request.params.name === 'format_goodbye') {
     const args = FormatGoodbyeArgsSchema.parse(request.params.arguments);
     return {
-      content: [{ 
-        type: 'text', 
+      content: [{
+        type: 'text',
         text: `Good ${args.obj.timeOfDay}, ${args.obj.type === 'group' ? args.obj.people.join(', ') : args.obj.person}! See you later.`,
       }],
       isError: false,
@@ -117,8 +117,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   if (request.params.name === 'format_sorry') {
     const args = FormatSorryArgsSchema.parse(request.params.arguments);
     return {
-      content: [{ 
-        type: 'text', 
+      content: [{
+        type: 'text',
         text: `Sorry ${args.obj.nested.type === 'group' ? args.obj.nested.people.join(', ') : args.obj.nested.person} to disappoint you this ${args.obj.nested.timeOfDay}.`,
       }],
       isError: false,
@@ -132,4 +132,4 @@ async function runServer() {
   await server.connect(transport);
 }
 
-runServer().catch(console.error);
+runServer();

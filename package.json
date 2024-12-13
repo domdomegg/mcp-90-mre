@@ -17,7 +17,7 @@
   "bin": "dist/index.js",
   "scripts": {
     "start": "npm run build && node ./dist/index.js",
-    "test": "vitest run",
+    "test": "vitest run --passWithNoTests",
     "test:watch": "vitest --watch",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "clean": "rm -rf dist",
@@ -46,7 +46,7 @@
       "eslint-config-domdomegg"
     ],
     "rules": {
-      "import/extensions": "always"
+      "import/extensions": ["error", "always"]
     }
   }
 }
