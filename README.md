@@ -2,6 +2,8 @@
 
 A minimal Model Context Protocol server that replicates a bug with the Claude Desktop app's MCP implementation. Specifically, using `allOf` or `anyOf` with an object doesn't appear to work correctly.
 
+Also see [discussion #90 on the model context protocol](https://github.com/orgs/modelcontextprotocol/discussions/90).
+
 https://github.com/user-attachments/assets/e22b0d06-f463-4c74-a081-cb0a631cb5e9
 
 ## Usage
